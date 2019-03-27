@@ -64,7 +64,7 @@ namespace SignalRWeb
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:82")
+                builder.WithOrigins("http://localhost:82", "http://localhost:48877")
                     .AllowAnyHeader()
                     .WithMethods("GET", "POST")
                     .AllowCredentials();
