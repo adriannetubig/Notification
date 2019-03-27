@@ -53,6 +53,12 @@ namespace AuthenticationWeb.Controllers
                 new Claim(ClaimTypes.Role, "Manager")
             };
 
+            var authenticationResult = new AuthenticationResult
+            {
+                Exiration = DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
+                InvalidBefore = DateTime.Now,
+            };
+
             var tokeOptions = new JwtSecurityToken(
                 issuer: Configuration.GetSection("Authentication:ValidIssuer").Value,
                 audience: Configuration.GetSection("Authentication:ValidAudience").Value,
@@ -61,9 +67,8 @@ namespace AuthenticationWeb.Controllers
                 expires: DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
                 signingCredentials: signinCredentials
             );
-
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-            return Ok(new { Token = tokenString });
+            authenticationResult.Token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+            return Ok(authenticationResult);
         }
     }
 }
