@@ -1,8 +1,11 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using SignalRFunction;
+using SignalRModel;
 using SignalRWeb.Hubs;
 
 namespace SignalRWeb.Controllers
@@ -11,10 +14,12 @@ namespace SignalRWeb.Controllers
     [ApiController]
     public class NotificationsController : ControllerBase
     {
+        private readonly IFNotification _iFNotification;
         private readonly IHubContext<NotificationHub> _hubContext;
 
-        public NotificationsController(IHubContext<NotificationHub> hubContext)
+        public NotificationsController(IFNotification iFNotification, IHubContext<NotificationHub> hubContext)
         {
+            _iFNotification = iFNotification;
             _hubContext = hubContext;
         }
 
@@ -34,6 +39,14 @@ namespace SignalRWeb.Controllers
             Task.WaitAll(
             _hubContext.Clients.All.SendAsync("ReceiveMessage", "Api", User.Identities.FirstOrDefault().Name)
             );
+            return Ok(User.Identities.FirstOrDefault().Name);
+        }
+
+        [Authorize, HttpPost("SendMessageToAuthenticatedConsumer")]
+        public async Task<IActionResult> WithAuthorization(Notification notification, CancellationToken cancellationToken)
+        {
+            notification.Sender = User.Identities.FirstOrDefault().Name;
+            await _iFNotification.SendMessageToAuthenticatedConsumer(notification, cancellationToken);
             return Ok(User.Identities.FirstOrDefault().Name);
         }
     }

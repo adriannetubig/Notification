@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using SignalRFunction;
 using SignalRWeb.Hubs;
 
 namespace SignalRWeb
@@ -59,7 +61,10 @@ namespace SignalRWeb
                 };
             });
 
+            services.AddScoped<IFNotification, FNotification>();
+
             services.AddSignalR();
+            services.AddMediatR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,6 +95,7 @@ namespace SignalRWeb
             app.UseSignalR(routes =>
             {
                 routes.MapHub<NotificationHub>("/notificationHub");
+                routes.MapHub<AuthenticatedHub>("/authenticatedHub");
             });
         }
     }

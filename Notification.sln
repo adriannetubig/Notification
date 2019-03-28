@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationModel", "Auth
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationFunction", "AuthenticationFunction\AuthenticationFunction.csproj", "{98B89F84-1213-4D1A-8896-84C0282C67B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRModel", "SignalRModel\SignalRModel.csproj", "{2C585D89-E835-4AB9-B352-F543FD2D9FB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRFunction", "SignalRFunction\SignalRFunction.csproj", "{76A3F903-0FE2-40B5-B23D-65864AE5FE84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{98B89F84-1213-4D1A-8896-84C0282C67B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98B89F84-1213-4D1A-8896-84C0282C67B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98B89F84-1213-4D1A-8896-84C0282C67B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C585D89-E835-4AB9-B352-F543FD2D9FB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C585D89-E835-4AB9-B352-F543FD2D9FB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C585D89-E835-4AB9-B352-F543FD2D9FB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C585D89-E835-4AB9-B352-F543FD2D9FB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76A3F903-0FE2-40B5-B23D-65864AE5FE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76A3F903-0FE2-40B5-B23D-65864AE5FE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76A3F903-0FE2-40B5-B23D-65864AE5FE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76A3F903-0FE2-40B5-B23D-65864AE5FE84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
