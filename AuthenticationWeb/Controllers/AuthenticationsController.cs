@@ -4,8 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using AuthenticationWeb.Models;
+using AuthenticationFunction;
+using AuthenticationModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,10 +17,14 @@ namespace AuthenticationWeb.Controllers
     [ApiController]
     public class AuthenticationsController : ControllerBase
     {
+        private readonly IFAuthentication _iFAuthentication;
+        private readonly IFUser _iFUser;
         private IConfiguration Configuration { get; }
-        public AuthenticationsController(IConfiguration configuration)
+        public AuthenticationsController(IConfiguration configuration, IFAuthentication iFAuthentication, IFUser iFUser)
         {
             Configuration = configuration;
+            _iFAuthentication = iFAuthentication;
+            _iFUser = iFUser;
         }
 
 
@@ -37,38 +41,12 @@ namespace AuthenticationWeb.Controllers
         }
 
         [AllowAnonymous ,HttpPost, Route("Login")]
-        public IActionResult Login([FromBody]LoginModel user)
+        public IActionResult Login([FromBody]User user)
         {
-            //ToDo: put this in Business Logic
-            //ToDo: do not use static username and password
-            if (user == null && (user.UserName != "username" && user.Password != "password"))
+            if (!_iFUser.Login(user))
                 return Unauthorized();
 
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication:IssuerSigningKey").Value));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, "Manager")
-            };
-
-            var authenticationResult = new AuthenticationResult
-            {
-                Exiration = DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
-                InvalidBefore = DateTime.Now,
-            };
-
-            var tokeOptions = new JwtSecurityToken(
-                issuer: Configuration.GetSection("Authentication:ValidIssuer").Value,
-                audience: Configuration.GetSection("Authentication:ValidAudience").Value,
-                claims: claims,
-                notBefore: DateTime.Now,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
-                signingCredentials: signinCredentials
-            );
-            authenticationResult.Token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-            return Ok(authenticationResult);
+            return Ok(_iFAuthentication.Create(user));
         }
     }
 }

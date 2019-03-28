@@ -79,7 +79,6 @@ namespace SignalRWeb
             app.UseAuthorization();
 
             var allowedOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
-
             app.UseCors(builder =>
             {
                 builder.WithOrigins(allowedOrigins)

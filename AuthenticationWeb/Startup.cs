@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using AuthenticationFunction;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,9 @@ namespace AuthenticationWeb
                     ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ClockSkewMinutes").Value))
                 };
             });
+
+            services.AddScoped<IFUser, FUser>();
+            services.AddScoped<IFAuthentication, FAuthentication>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +62,15 @@ namespace AuthenticationWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            var allowedOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins(allowedOrigins)
+                    .AllowAnyHeader()
+                    .WithMethods("GET", "POST")
+                    .AllowCredentials();
+            });
         }
     }
 }
