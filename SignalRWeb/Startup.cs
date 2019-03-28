@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,21 @@ namespace SignalRWeb
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication:IssuerSigningKey").Value)),
                     ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ClockSkewMinutes").Value))
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (context.HttpContext.WebSockets.IsWebSocketRequest || context.Request.Headers["Accept"] == "text/event-stream"))
+                        {
+                            context.Token = context.Request.Query["access_token"];
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             services.AddSignalR();
@@ -62,9 +78,11 @@ namespace SignalRWeb
             app.UseAuthentication();
             app.UseAuthorization();
 
+            var allowedOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
+
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:82", "http://localhost:48877")
+                builder.WithOrigins(allowedOrigins)
                     .AllowAnyHeader()
                     .WithMethods("GET", "POST")
                     .AllowCredentials();
