@@ -49,5 +49,13 @@ namespace SignalRWeb.Controllers
             await _iFNotification.SendMessageToAuthenticatedConsumer(notification, cancellationToken);
             return Ok(User.Identities.FirstOrDefault().Name);
         }
+
+        [HttpPost("SendMessageToUnauthenticatedConsumer")]
+        public async Task<IActionResult> WithoutAuthorization(Notification notification, CancellationToken cancellationToken)
+        {
+            notification.Sender = "Unauthenticated";
+            await _iFNotification.SendMessageToUnauthenticatedConsumer(notification, cancellationToken);
+            return Ok(User.Identities.FirstOrDefault().Name);
+        }
     }
 }

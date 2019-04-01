@@ -7,5 +7,6 @@ namespace SignalRFunction
     public interface IFNotification
     {
         Task SendMessageToAuthenticatedConsumer(Notification notification, CancellationToken cancellationToken);
+        Task SendMessageToUnauthenticatedConsumer(Notification notification, CancellationToken cancellationToken);
     }
 }

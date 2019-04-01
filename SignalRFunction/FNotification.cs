@@ -22,5 +22,14 @@ namespace SignalRFunction
             };
             await _mediator.Publish(authenticatedHubEvent, cancellationToken);
         }
+        public async Task SendMessageToUnauthenticatedConsumer(Notification notification, CancellationToken cancellationToken)
+        {
+            var unauthenticatedHubEvent = new UnauthenticatedHubEvent
+            {
+                Sender = notification.Sender,
+                Message = notification.Message
+            };
+            await _mediator.Publish(unauthenticatedHubEvent, cancellationToken);
+        }
     }
 }
