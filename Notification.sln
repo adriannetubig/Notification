@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRWeb", "SignalRWeb\Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerMvc", "ConsumerMvc\ConsumerMvc.csproj", "{FB286F94-6ED8-4972-888B-F9B1502EC7D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationModel", "AuthenticationModel\AuthenticationModel.csproj", "{581F2719-E5F4-4D8F-815F-3C184D78298B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationModel", "AuthenticationModel\AuthenticationModel.csproj", "{581F2719-E5F4-4D8F-815F-3C184D78298B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationFunction", "AuthenticationFunction\AuthenticationFunction.csproj", "{98B89F84-1213-4D1A-8896-84C0282C67B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationFunction", "AuthenticationFunction\AuthenticationFunction.csproj", "{98B89F84-1213-4D1A-8896-84C0282C67B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRModel", "SignalRModel\SignalRModel.csproj", "{2C585D89-E835-4AB9-B352-F543FD2D9FB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRModel", "SignalRModel\SignalRModel.csproj", "{2C585D89-E835-4AB9-B352-F543FD2D9FB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRFunction", "SignalRFunction\SignalRFunction.csproj", "{76A3F903-0FE2-40B5-B23D-65864AE5FE84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRFunction", "SignalRFunction\SignalRFunction.csproj", "{76A3F903-0FE2-40B5-B23D-65864AE5FE84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
