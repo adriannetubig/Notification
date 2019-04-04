@@ -100,6 +100,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientApp\AngularJS\app.module.js" />
+    <Content Include="ClientApp\AngularJS\Controller\Unauthenticated.Controller.js" />
+    <Content Include="ClientApp\AngularJS\Service\Unauthenticated.Service.js" />
     <Content Include="Content\Site.min.css">
       <DependentUpon>Site.css</DependentUpon>
     </Content>

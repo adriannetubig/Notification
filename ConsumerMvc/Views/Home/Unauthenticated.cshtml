@@ -3,25 +3,25 @@
     ViewBag.Title = "Unauthenticated";
 }
 
-<div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">
-            User..........<input type="text" id="userInput" />
-            <br />
-            Message...<input type="text" id="messageInput" />
-            <input type="button" id="sendButton" value="Send Message" />
-        </div>
+
+    <div ng-controller="UnauthenticatedController as Model" ng-init="Model.Initialise()">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th colspan="2" scope="col">EventDate</th>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="notification in Model.Notifications track by $index">
+                    <td colspan="2" ng-bind="notification.eventDate | date:'yyyy-MM-dd HH:mm'"></td>
+                    <td ng-bind="notification.sender"></td>
+                    <td ng-bind="notification.message"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <hr />
-        </div>
+    <div class="sticky-bottom">
+        TODO: Add controls here
     </div>
-    <div class="row">
-        <div class="col-6">
-            <ul id="messagesList"></ul>
-        </div>
-    </div>
-</div>
-<script src="~/Scripts/unauthenticated.js"></script>

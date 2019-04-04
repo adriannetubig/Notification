@@ -6,12 +6,19 @@ namespace ConsumerMvc.App_Start
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
+            bundles.Add(new ScriptBundle("~/Bundles/Scripts").Include(
                         "~/ClientApp/node_modules/jquery/dist/jquery.min.js",
                         "~/ClientApp/node_modules/bootstrap/dist/js/bootstrap.min.js",
-                        "~/ClientApp/node_modules/@aspnet/signalr/dist/browser/signalr.min.js"));
+                        "~/ClientApp/node_modules/@aspnet/signalr/dist/browser/signalr.min.js",
+                        "~/ClientApp/node_modules/angular/angular.min.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new ScriptBundle("~/Bundles/AngularJs")
+                .IncludeDirectory("~/ClientApp/AngularJS", "*.js", true)
+                .IncludeDirectory("~/ClientApp/AngularJS/Controller", "*.js", true)
+                .IncludeDirectory("~/ClientApp/AngularJS/Controller", "*.js", true)
+                );
+
+            bundles.Add(new StyleBundle("~/Content/Css").Include(
                       "~/ClientApp/node_modules/bootstrap/dist/css/bootstrap.min.css",
                       "~/Content/Site.min.css"));
         }
