@@ -21,7 +21,19 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="sticky-bottom">
-        TODO: Add controls here
+        <div class="fixed-bottom">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="col-form-label">Sender</label>
+                    <input type="text" class="form-control" ng-model="Model.Notification.Sender">
+                </div>
+                <div class="col-md-8">
+                    <label class="col-form-label">Message</label>
+                    <input type="text" class="form-control" ng-model="Model.Notification.Message">
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-primary" ng-click="Model.Send()">Send</button>
+                </div>
+            </div>
+        </div>
     </div>

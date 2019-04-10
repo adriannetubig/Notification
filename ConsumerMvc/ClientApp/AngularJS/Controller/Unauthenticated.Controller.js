@@ -5,23 +5,34 @@
         .module('App')
         .controller('UnauthenticatedController', UnauthenticatedController);
 
-    UnauthenticatedController.$inject = ['$scope'];
+    UnauthenticatedController.$inject = ['$scope', 'UnauthenticatedService'];
 
-    function UnauthenticatedController($scope) {
+    function UnauthenticatedController($scope, UnauthenticatedService) {
         var vm = this;
 
         vm.Connection = null;
+        vm.Notification = null;
 
         vm.Notifications = [];
 
+        vm.Send = Send;
+
         vm.Initialise = Initialise;
+
+        function Send() {
+            UnauthenticatedService.Send(vm.Notification)
+                .then(function (response) {
+                })
+                .catch(function (data) {
+                    console.log(data);
+                });
+        }
 
         function Initialise() {
             ConnectToSignalR();
         }
 
         function PushMessage(notification) {
-            console.log(vm.Notifications);
             vm.Notifications.push(notification);
             $scope.$apply(); //We need this to update the UI
         }
