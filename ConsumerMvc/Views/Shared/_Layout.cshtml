@@ -26,9 +26,11 @@
         </div>
     </nav>
     <script>
+        var HubReconnectionAttempts = @Config.HubReconnectionAttempts;
+        var HubReconnectionAttemptDelaySeconds = @Config.HubReconnectionAttemptDelaySeconds;
         var SignalRUrl = '@Config.SignalRUrl';
     </script>
-    @Scripts.Render("~/Bundles/Scripts") @*ToDo: Move to bottom once all scripts are implemented in bundles*@
+    @Scripts.Render("~/Bundles/Scripts")
     @Scripts.Render("~/Bundles/AngularJS")
     <div class="container">
         @RenderBody()
