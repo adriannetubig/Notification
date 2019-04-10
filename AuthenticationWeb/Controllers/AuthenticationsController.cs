@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
+﻿using System.Linq;
 using AuthenticationFunction;
 using AuthenticationModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace AuthenticationWeb.Controllers
 {
@@ -18,12 +11,12 @@ namespace AuthenticationWeb.Controllers
     public class AuthenticationsController : ControllerBase
     {
         private readonly IFAuthentication _iFAuthentication;
+        private readonly IFRefreshToken _iFRefreshToken;
         private readonly IFUser _iFUser;
-        private IConfiguration Configuration { get; }
-        public AuthenticationsController(IConfiguration configuration, IFAuthentication iFAuthentication, IFUser iFUser)
+        public AuthenticationsController(IFAuthentication iFAuthentication, IFRefreshToken iFRefreshToken, IFUser iFUser)
         {
-            Configuration = configuration;
             _iFAuthentication = iFAuthentication;
+            _iFRefreshToken = iFRefreshToken;
             _iFUser = iFUser;
         }
 
@@ -43,10 +36,25 @@ namespace AuthenticationWeb.Controllers
         [AllowAnonymous ,HttpPost, Route("Login")]
         public IActionResult Login([FromBody]User user)
         {
-            if (!_iFUser.Login(user))
+            user = _iFUser.Login(user);
+            if (user.UserId != 1)
                 return Unauthorized();
 
-            return Ok(_iFAuthentication.Create(user));
+            var refreshToken = _iFRefreshToken.Create(user.UserId);
+
+            return Ok(_iFAuthentication.Create(refreshToken, user));
+        }
+
+        [AllowAnonymous, HttpPost, Route("Refresh")]
+        public IActionResult Refresh([FromBody]Authentication authentication)
+        {
+            var user = _iFAuthentication.GetUserDetailsFromToken(authentication.Token);
+            if (user.UserId != 1 && !_iFRefreshToken.IsValidRefreshToken(user.UserId, authentication.RefreshToken))
+                return Unauthorized();
+
+            var refreshToken = _iFRefreshToken.Create(user.UserId);
+
+            return Ok(_iFAuthentication.Create(refreshToken, user));
         }
     }
 }

@@ -5,12 +5,17 @@ namespace AuthenticationFunction
 {
     public class FUser: IFUser
     {
-        public bool Login(User user)
+        public User Login(User user)
         {
-            if (user == null)
-                return false;
+            if (user == null &&(user.UserName != "username" || user.Password != "password"))
+                return null;
 
-            return user.UserName != "username" && user.Password != "password"; //ToDo: connect this to a database
+            //ToDo: connect this to a database
+            return new User
+            {
+                UserId = 1,
+                UserName = "username"
+            };
         }
     }
 }

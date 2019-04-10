@@ -16,7 +16,7 @@ namespace AuthenticationFunction
         {
             Configuration = configuration;
         }
-        public Authentication Create(User user)
+        public Authentication Create(string refreshTokenn, User user)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication:IssuerSigningKey").Value));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -24,6 +24,7 @@ namespace AuthenticationFunction
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Role, "Manager")
             };
 
@@ -31,6 +32,7 @@ namespace AuthenticationFunction
             {
                 Exiration = DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
                 InvalidBefore = DateTime.Now,
+                RefreshToken = refreshTokenn
             };
 
             var tokeOptions = new JwtSecurityToken(
@@ -44,6 +46,31 @@ namespace AuthenticationFunction
             authenticationResult.Token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
             return authenticationResult;
+        }
+
+        public User GetUserDetailsFromToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication:IssuerSigningKey").Value)),
+                ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+
+            return new User
+            {
+                UserId = Convert.ToInt32(principal.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                UserName = principal.Identity.Name
+            };
         }
     }
 }
