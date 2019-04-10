@@ -4,7 +4,7 @@ namespace AuthenticationFunction
 {
     public interface IFAuthentication
     {
-        Authentication Create(string refreshTokenn, User user);
+        Authentication Create(string refreshToken, User user);
         User GetUserDetailsFromToken(string token);
     }
 }

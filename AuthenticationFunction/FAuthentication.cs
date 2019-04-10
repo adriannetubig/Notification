@@ -16,7 +16,7 @@ namespace AuthenticationFunction
         {
             Configuration = configuration;
         }
-        public Authentication Create(string refreshTokenn, User user)
+        public Authentication Create(string refreshToken, User user)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication:IssuerSigningKey").Value));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -30,9 +30,9 @@ namespace AuthenticationFunction
 
             var authenticationResult = new Authentication
             {
-                Exiration = DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
+                Expiration = DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
                 InvalidBefore = DateTime.Now,
-                RefreshToken = refreshTokenn
+                RefreshToken = refreshToken
             };
 
             var tokeOptions = new JwtSecurityToken(

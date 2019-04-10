@@ -40,7 +40,7 @@
 
         function ConnectToSignalR() {
             if (vm.Connection === null || vm.Connection.state === 0) {
-                vm.Connection = new signalR.HubConnectionBuilder().withUrl(SignalRUrl + '/unauthenticatedHub').build();
+                vm.Connection = new signalR.HubConnectionBuilder().withUrl(URLSignalR + '/unauthenticatedHub').build();
                 vm.Connection.on("AuthorizedMessage", function (notification) {
                     PushMessage(notification);
                 });

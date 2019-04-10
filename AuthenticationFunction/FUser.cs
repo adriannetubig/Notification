@@ -7,7 +7,7 @@ namespace AuthenticationFunction
     {
         public User Login(User user)
         {
-            if (user == null &&(user.UserName != "username" || user.Password != "password"))
+            if (user == null || user.UserName != "username" || user.Password != "password")
                 return null;
 
             //ToDo: connect this to a database

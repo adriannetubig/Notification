@@ -6,6 +6,7 @@ namespace ConsumerMvc.Helper
     {
         public static int HubReconnectionAttempts => Convert.ToInt32(ConfigurationManager.AppSettings["HubReconnectionAttempts"]);
         public static int HubReconnectionAttemptDelaySeconds => Convert.ToInt32(ConfigurationManager.AppSettings["HubReconnectionAttemptDelaySeconds"]) * 1000;
-        public static string SignalRUrl => ConfigurationManager.AppSettings["URLSignalR"];
+        public static string URLAuthentication => ConfigurationManager.AppSettings["URLAuthentication"];
+        public static string URLSignalR => ConfigurationManager.AppSettings["URLSignalR"];
     }
 }

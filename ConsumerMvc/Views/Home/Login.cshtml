@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Unauthenticated";
+}
+
+@*If this is a hybrid MVC and AngularJS. Use MVC on log in*@
+
+    <div ng-controller="AuthenticationsController as Model">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" ng-model="Model.User.Username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" ng-model="Model.User.Password">
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="Model.Login()">Login</button>
+    </div>

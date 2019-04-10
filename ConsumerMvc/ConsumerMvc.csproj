@@ -101,7 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientApp\AngularJS\app.module.js" />
+    <Content Include="ClientApp\AngularJS\Controller\Authentications.Controller.js" />
     <Content Include="ClientApp\AngularJS\Controller\Unauthenticated.Controller.js" />
+    <Content Include="ClientApp\AngularJS\Service\Authentications.Service.js" />
     <Content Include="ClientApp\AngularJS\Service\Unauthenticated.Service.js" />
     <Content Include="Content\Site.min.css">
       <DependentUpon>Site.css</DependentUpon>
@@ -132,6 +134,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Unauthenticated.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
