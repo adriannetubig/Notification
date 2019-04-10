@@ -15,7 +15,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="notification in Model.Notifications track by $index">
-                    <td colspan="2" ng-bind="notification.eventDate | date:'yyyy-MM-dd HH:mm'"></td>
+                    <td colspan="2" ng-bind="notification.eventDate | date:'yyyy-MM-dd HH:mm:ss'"></td>
                     <td ng-bind="notification.sender"></td>
                     <td ng-bind="notification.message"></td>
                 </tr>

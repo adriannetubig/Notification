@@ -11,7 +11,7 @@
         };
 
         function Send(notification) {
-            return $http.post('http://localhost:40902/api/Notifications/SendMessageToUnauthenticatedConsumer',
+            return $http.post(SignalRUrl + '/api/Notifications/SendMessageToUnauthenticatedConsumer',
                 notification);
         }
     }
