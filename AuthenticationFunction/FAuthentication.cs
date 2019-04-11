@@ -30,8 +30,8 @@ namespace AuthenticationFunction
 
             var authenticationResult = new Authentication
             {
-                Expiration = DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
-                InvalidBefore = DateTime.Now,
+                Expiration = DateTime.UtcNow.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
+                InvalidBefore = DateTime.UtcNow,
                 RefreshToken = refreshToken
             };
 
@@ -39,8 +39,8 @@ namespace AuthenticationFunction
                 issuer: Configuration.GetSection("Authentication:ValidIssuer").Value,
                 audience: Configuration.GetSection("Authentication:ValidAudience").Value,
                 claims: claims,
-                notBefore: DateTime.Now,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
+                notBefore: authenticationResult.InvalidBefore,
+                expires: authenticationResult.Expiration,
                 signingCredentials: signinCredentials
             );
             authenticationResult.Token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);

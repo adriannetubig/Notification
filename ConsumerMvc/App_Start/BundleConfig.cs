@@ -15,8 +15,6 @@ namespace ConsumerMvc.App_Start
 
             bundles.Add(new ScriptBundle("~/Bundles/AngularJs")
                 .IncludeDirectory("~/ClientApp/AngularJS", "*.js", true)
-                .IncludeDirectory("~/ClientApp/AngularJS/Controller", "*.js", true)
-                .IncludeDirectory("~/ClientApp/AngularJS/Controller", "*.js", true)
                 );
 
             bundles.Add(new StyleBundle("~/Content/Css").Include(

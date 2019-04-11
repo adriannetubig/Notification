@@ -5,9 +5,9 @@
         .module('App')
         .controller('AuthenticationsController', AuthenticationsController);
 
-    AuthenticationsController.$inject = ['$cookies', 'AuthenticationsService'];
+    AuthenticationsController.$inject = ['$cookies', 'AuthenticationsFactory', 'AuthenticationsService'];
 
-    function AuthenticationsController($cookies, AuthenticationsService) {
+    function AuthenticationsController($cookies, AuthenticationsFactory, AuthenticationsService) {
         var vm = this;
 
         vm.User = {
@@ -20,9 +20,7 @@
         function Login() {
             AuthenticationsService.Login(vm.User)
                 .then(function (response) {
-                    console.log(response.data);
-                    $cookies.put('Authentication', JSON.stringify(response.data));
-                    console.log(JSON.parse($cookies.get('Authentication')));
+                    AuthenticationsFactory.StoreAuthentication(response.data);
                 })
                 .catch(function (error) {
                     console.error(error);

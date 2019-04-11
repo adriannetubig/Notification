@@ -3,15 +3,18 @@
 
     angular
         .module('App')
-        .controller('UnauthenticatedController', UnauthenticatedController);
+        .controller('AuthenticatedController', AuthenticatedController);
 
-    UnauthenticatedController.$inject = ['$timeout', '$scope', 'UnauthenticatedService'];
+    AuthenticatedController.$inject = ['$timeout', '$scope', 'AuthenticatedService'];
 
-    function UnauthenticatedController($timeout, $scope, UnauthenticatedService) {
+    function AuthenticatedController($timeout, $scope, AuthenticatedService) {
         var vm = this;
 
         vm.Connection = null;
-        vm.Notification = null;
+        vm.Notification = {
+            Sender: 'AuthenticatedSender',
+            Message: 'Message'
+        };
 
         vm.Notifications = [];
 
@@ -20,8 +23,9 @@
         vm.Initialise = Initialise;
 
         function Send() {
-            UnauthenticatedService.Send(vm.Notification)
+            AuthenticatedService.Send(vm.Notification)
                 .then(function (response) {
+                    console.log(vm.Notification);
                 })
                 .catch(function (error) {
                     console.error(error);
@@ -43,7 +47,11 @@
                 vm.Connection.on("AuthorizedMessage", function (notification) {
                     PushMessage(notification);
                 });
-
+                //var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:40902/notificationHub", {
+//    accessTokenFactory: () =>
+//        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiam9obmRvZSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Ik1hbmFnZXIiLCJuYmYiOjE1NTM3NDE2MTUsImV4cCI6MTU1Mzc0MTY3NSwiaXNzIjoiSXNzdWVyIiwiYXVkIjoiQXVkaWVuY2UifQ.2HBSiii7sJAXg7dC55e5cKIUU1-TxYEAQphqzw0s85w"
+//})
+//    .build();
                 vm.Connection.start().then(function () {
                 }).catch(function (error) {
                     console.error(error);
