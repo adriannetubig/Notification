@@ -250,7 +250,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n   \"UserName\":\"johndoe\",\r\n   \"Password\": \"def@123\"\r\n} "
+					"raw": "{\r\n   \"UserName\":\"{{UserName}}\",\r\n   \"Password\": \"{{Password}}\"\r\n} "
 				},
 				"url": {
 					"raw": "{{UrlAuthentication}}/api/Authentications/Login",
