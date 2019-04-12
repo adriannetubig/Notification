@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Authenticated";
+}
+
+
+    <div ng-controller="AuthenticatedController as Model" ng-init="Model.Initialise()">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th colspan="2" scope="col">EventDate</th>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="notification in Model.Notifications track by $index">
+                    <td colspan="2" ng-bind="notification.eventDate | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                    <td ng-bind="notification.sender"></td>
+                    <td ng-bind="notification.message"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="fixed-bottom">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="col-form-label">Sender</label>
+                    <input type="text" class="form-control" ng-model="Model.Notification.Sender">
+                </div>
+                <div class="col-md-8">
+                    <label class="col-form-label">Message</label>
+                    <input type="text" class="form-control" ng-model="Model.Notification.Message">
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-primary" ng-click="Model.Send()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>

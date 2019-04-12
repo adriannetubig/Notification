@@ -3,11 +3,11 @@
 
     angular
         .module('App')
-        .controller('UnauthenticatedController', UnauthenticatedController);
+        .controller('AuthenticatedController', AuthenticatedController);
 
-    UnauthenticatedController.$inject = ['$timeout', '$scope', 'UnauthenticatedService'];
+    AuthenticatedController.$inject = ['$timeout', '$scope', 'AuthenticatedService', 'AuthenticationsFactory'];
 
-    function UnauthenticatedController($timeout, $scope, UnauthenticatedService) {
+    function AuthenticatedController($timeout, $scope, AuthenticatedService, AuthenticationsFactory) {
         var vm = this;
 
         vm.Connection = null;
@@ -23,8 +23,9 @@
         vm.Initialise = Initialise;
 
         function Send() {
-            UnauthenticatedService.Send(vm.Notification)
+            AuthenticatedService.Send(vm.Notification)
                 .then(function (response) {
+                    console.log(vm.Notification);
                 })
                 .catch(function (error) {
                     console.error(error);
@@ -40,9 +41,12 @@
             $scope.$apply(); //We need this to update the UI
         }
 
-        function ConnectToSignalR() {
+        async function ConnectToSignalR() {
             if (vm.Connection === null || vm.Connection.state === 0) {
-                vm.Connection = new signalR.HubConnectionBuilder().withUrl(URLSignalR + '/unauthenticatedHub').build();
+                var token = await AuthenticationsFactory.GetToken();
+                vm.Connection = new signalR.HubConnectionBuilder().withUrl(URLSignalR + '/authenticatedHub', {
+                    accessTokenFactory: () => token
+                }).build();
                 vm.Connection.on("AuthorizedMessage", function (notification) {
                     PushMessage(notification);
                 });
@@ -58,8 +62,8 @@
             }
         }
 
-        function Reconnect(iteration) {
-            ConnectToSignalR();
+        async function Reconnect(iteration) {
+            await ConnectToSignalR();
             iteration += 1;
             if ((iteration < HubReconnectionAttempts || HubReconnectionAttempts === 0) && vm.Connection.state === 0)
                 $timeout(function () { Reconnect(iteration); }, HubReconnectionAttemptDelaySeconds * iteration);

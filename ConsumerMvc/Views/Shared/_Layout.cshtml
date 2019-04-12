@@ -22,13 +22,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="~/Home/Unauthenticated">Unauthenticated</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/Login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/Authenticated">Authenticated</a>
+                </li>
             </ul>
         </div>
     </nav>
     <script>
         var HubReconnectionAttempts = @Config.HubReconnectionAttempts;
         var HubReconnectionAttemptDelaySeconds = @Config.HubReconnectionAttemptDelaySeconds;
-        var SignalRUrl = '@Config.SignalRUrl';
+        var URLAuthentication = '@Config.URLAuthentication';
+        var URLSignalR = '@Config.URLSignalR';
     </script>
     @Scripts.Render("~/Bundles/Scripts")
     @Scripts.Render("~/Bundles/AngularJS")

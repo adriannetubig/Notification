@@ -13,5 +13,13 @@ namespace ConsumerMvc.Controllers
         {
             return View();
         }
+        public ActionResult Authenticated()
+        {
+            return View();
+        }
+        public ActionResult Login()
+        {
+            return View();
+        }
     }
 }

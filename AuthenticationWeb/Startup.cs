@@ -43,8 +43,9 @@ namespace AuthenticationWeb
                 };
             });
 
-            services.AddScoped<IFUser, FUser>();
             services.AddScoped<IFAuthentication, FAuthentication>();
+            services.AddScoped<IFRefreshToken, FRefreshToken>();
+            services.AddScoped<IFUser, FUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

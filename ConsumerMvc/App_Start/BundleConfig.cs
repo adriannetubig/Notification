@@ -10,12 +10,11 @@ namespace ConsumerMvc.App_Start
                         "~/ClientApp/node_modules/jquery/dist/jquery.min.js",
                         "~/ClientApp/node_modules/bootstrap/dist/js/bootstrap.min.js",
                         "~/ClientApp/node_modules/@aspnet/signalr/dist/browser/signalr.min.js",
-                        "~/ClientApp/node_modules/angular/angular.min.js"));
+                        "~/ClientApp/node_modules/angular/angular.min.js",
+                        "~/ClientApp/node_modules/angular-cookies/angular-cookies.js"));
 
             bundles.Add(new ScriptBundle("~/Bundles/AngularJs")
                 .IncludeDirectory("~/ClientApp/AngularJS", "*.js", true)
-                .IncludeDirectory("~/ClientApp/AngularJS/Controller", "*.js", true)
-                .IncludeDirectory("~/ClientApp/AngularJS/Controller", "*.js", true)
                 );
 
             bundles.Add(new StyleBundle("~/Content/Css").Include(
