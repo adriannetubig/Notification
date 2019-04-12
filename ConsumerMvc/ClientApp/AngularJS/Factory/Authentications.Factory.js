@@ -26,8 +26,11 @@
 
         async function GetToken() {
             var authentication = JSON.parse($cookies.get('NotificationAuthentication'));
-            if (!authentication)
+            if (!authentication) {
+                console.error('Invalid Authentication please log in again');
                 return null;
+            }
+
             var now = new Date();
             var expiration = new Date(authentication.expiration);
             if (expiration < now) {

@@ -11,7 +11,10 @@
         var vm = this;
 
         vm.Connection = null;
-        vm.Notification = null;
+        vm.Notification = {
+            Sender: 'AuthenticatedSender',
+            Message: 'Message'
+        };
 
         vm.Notifications = [];
 
