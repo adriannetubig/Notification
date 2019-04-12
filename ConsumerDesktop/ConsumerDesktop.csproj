@@ -165,6 +165,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SignalRConsumer\SignalRConsumer.csproj">
+      <Project>{c677740c-2643-4902-8ef5-58854cec8671}</Project>
+      <Name>SignalRConsumer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SignalRModel\SignalRModel.csproj">
       <Project>{2c585d89-e835-4ab9-b352-f543fd2d9fb0}</Project>
       <Name>SignalRModel</Name>
