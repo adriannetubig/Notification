@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRFunction", "SignalRF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostmanJson", "PostmanJson\PostmanJson.csproj", "{CE3CDBA6-7BAF-4726-B705-77BC88338A59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerDesktop", "ConsumerDesktop\ConsumerDesktop.csproj", "{2703CE57-C23C-47C0-9EA0-61781556CA1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,12 +59,16 @@ Global
 		{CE3CDBA6-7BAF-4726-B705-77BC88338A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE3CDBA6-7BAF-4726-B705-77BC88338A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE3CDBA6-7BAF-4726-B705-77BC88338A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2703CE57-C23C-47C0-9EA0-61781556CA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2703CE57-C23C-47C0-9EA0-61781556CA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2703CE57-C23C-47C0-9EA0-61781556CA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2703CE57-C23C-47C0-9EA0-61781556CA1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {23E0AAB3-DF67-4A5A-A260-3F61DE02F036}
 		LessCompiler = fb286f94-6ed8-4972-888b-f9b1502ec7d1
+		SolutionGuid = {23E0AAB3-DF67-4A5A-A260-3F61DE02F036}
 	EndGlobalSection
 EndGlobal
