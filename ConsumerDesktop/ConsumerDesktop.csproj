@@ -165,6 +165,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuthenticationConsumer\AuthenticationConsumer.csproj">
+      <Project>{7f518f4a-9f5a-4e22-a1a2-f6425ab09a66}</Project>
+      <Name>AuthenticationConsumer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuthenticationModel\AuthenticationModel.csproj">
+      <Project>{581f2719-e5f4-4d8f-815f-3c184d78298b}</Project>
+      <Name>AuthenticationModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SignalRConsumer\SignalRConsumer.csproj">
       <Project>{c677740c-2643-4902-8ef5-58854cec8671}</Project>
       <Name>SignalRConsumer</Name>

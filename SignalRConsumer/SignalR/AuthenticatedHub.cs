@@ -28,11 +28,9 @@ namespace SignalRConsumer.SignalR
             _hubReconnectionAttempts = hubReconnectionAttempts;
             _hubReconnectionAttemptDelaySeconds = hubReconnectionAttemptDelaySeconds;
             _uRLSignalR = uRLSignalR;
-
-            ConnectToAuthenticatedHub();
         }
 
-        private async void ConnectToAuthenticatedHub()
+        public async void ConnectToAuthenticatedHub()
         {
             if (_AuthenticatedHubConnection == null || _AuthenticatedHubConnection.State == HubConnectionState.Disconnected)
             {
@@ -46,7 +44,7 @@ namespace SignalRConsumer.SignalR
                 {
                     await ReconnectToAuthenticatedHub(0);
                 };
-                _AuthenticatedHubConnection.On<Notification>("UnauthorizedMessage", (notification) =>
+                _AuthenticatedHubConnection.On<Notification>("AuthorizedMessage", (notification) =>
                 {
                     _methodOnMessage.DynamicInvoke(notification);
                 });

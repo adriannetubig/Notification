@@ -1,4 +1,6 @@
-﻿using SignalRConsumer.Api;
+﻿using AuthenticationConsumer.Api;
+using AuthenticationModel;
+using SignalRConsumer.Api;
 using SignalRConsumer.SignalR;
 using SignalRModel;
 using System;
@@ -12,36 +14,63 @@ namespace ConsumerDesktop
 {
     public partial class Form1 : Form
     {
+        private List<Notification> _authenticatedNotifications;
         private List<Notification> _unauthenticatedNotifications;
 
+        private int _authenticationCacheMinutes;
         private int _hubReconnectionAttempts;
         private int _hubReconnectionAttemptDelaySeconds;
-        private string _uRLAuthentication;
+        private string _authenticationUrl;
+        private string _authenticationCacheName;
         private string _uRLSignalR;
 
+        private readonly IAuthenticationsApi _iAuthenticationsApi;
         private readonly INotificationsApi _iNotificationsApi;
+        private readonly IAuthenticatedHub _iAuthenticatedHub;
         private readonly IUnauthenticatedHub _iUnauthenticatedHub;
         public Form1()
         {
             InitializeComponent();
             ConfigureSettings();
-            //ConnectToUnauthenticatedHub();
-            _iNotificationsApi = new NotificationsApi(_uRLSignalR);
+            _iAuthenticationsApi = new AuthenticationsApi(_authenticationCacheMinutes, _authenticationCacheName, _authenticationUrl);
+            _iNotificationsApi = new NotificationsApi(_uRLSignalR);            
+            //Attaches method RebindAuthenticatedTable to SignalR Hub
+            _iAuthenticatedHub = new AuthenticatedHub(AuthenticatedHubRefreshToken, RebindAuthenticatedTable, _hubReconnectionAttempts, _hubReconnectionAttemptDelaySeconds, _uRLSignalR);
+            //Attaches method RebindUnauthenticatedTable to SignalR Hub
             _iUnauthenticatedHub = new UnauthenticatedHub(RebindUnauthenticatedTable, _hubReconnectionAttempts, _hubReconnectionAttemptDelaySeconds, _uRLSignalR);
+            StartAuthenticatedHub();
         }
         private async void BtnSend_Click(object sender, EventArgs e)
         {
             await SendNotificationAsync();
+        }
+        private void BtnLogin_Click(object sender, EventArgs e)
+        {
+            Login();
         }
 
         private void ConfigureSettings()
         {
             _hubReconnectionAttempts = Convert.ToInt32(ConfigurationManager.AppSettings["HubReconnectionAttempts"]);
             _hubReconnectionAttemptDelaySeconds = Convert.ToInt32(ConfigurationManager.AppSettings["HubReconnectionAttemptDelaySeconds"]) * 1000;
-            _uRLAuthentication = ConfigurationManager.AppSettings["URLAuthentication"];
             _uRLSignalR = ConfigurationManager.AppSettings["URLSignalR"];
+            
+            _authenticationUrl = ConfigurationManager.AppSettings["AuthenticationUrl"];
+            _authenticationCacheName = ConfigurationManager.AppSettings["AuthenticationCacheName"];
+            _authenticationCacheMinutes = Convert.ToInt32(ConfigurationManager.AppSettings["AuthenticationCacheMinutes"]);
 
+            _authenticatedNotifications = new List<Notification>();
             _unauthenticatedNotifications = new List<Notification>();
+        }
+
+        private void Login()
+        {
+            var user = new User
+            {
+                UserName = txtUserName.Text,
+                Password = txtPassword.Text
+            };
+            _iAuthenticationsApi.Login(user);
         }
 
         private Notification NotificationModel()
@@ -57,12 +86,34 @@ namespace ConsumerDesktop
         {
             if (tcConsumer.SelectedIndex == 0) //unauthenticated
                 await _iNotificationsApi.SendMessageToUnauthenticatedConsumer(NotificationModel());
-            //else if (tcConsumer.SelectedIndex == 1) //authenticated
-            //    apiUrl = "api/Notifications/SendMessageToAuthenticatedConsumer";
-
-            //HttpResponseMessage response = await client.PostAsJsonAsync(apiUrl, Notification());
-            //response.EnsureSuccessStatusCode();
+            else if (tcConsumer.SelectedIndex == 1) //authenticated
+                await _iNotificationsApi.SendMessageToAuthenticatedConsumer(_iAuthenticationsApi.Token(), NotificationModel());
         }
+
+        #region AuthenticatedHub
+        private void StartAuthenticatedHub()
+        {
+            Login();
+            AuthenticatedHubRefreshToken();
+            _iAuthenticatedHub.ConnectToAuthenticatedHub();
+        }
+
+        private void AuthenticatedHubRefreshToken()
+        {
+            _iAuthenticatedHub.JWTToken = _iAuthenticationsApi.Token();
+        }
+
+        private void RebindAuthenticatedTable(Notification notification)
+        {
+            _authenticatedNotifications.Add(notification);
+            var bindingList = new BindingList<Notification>(_authenticatedNotifications);
+            var source = new BindingSource(bindingList, null);
+            dgvAuthenticated.Invoke((MethodInvoker)delegate
+            {
+                dgvAuthenticated.DataSource = source;
+            });
+        }
+        #endregion
 
         #region UnauthenticatedHub
         private void RebindUnauthenticatedTable(Notification notification)

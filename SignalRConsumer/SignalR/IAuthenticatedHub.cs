@@ -3,5 +3,6 @@
     public interface IAuthenticatedHub
     {
         string JWTToken { set; }
+        void ConnectToAuthenticatedHub();
     }
 }
