@@ -8,20 +8,31 @@ namespace SignalRConsumer.Api
 {
     public class NotificationsApi: INotificationsApi
     {
-        private string _uRLSignalR;
+        private readonly string _url;
 
-        public NotificationsApi(string uRLSignalR)
+        public NotificationsApi(string url)
         {
-            _uRLSignalR = uRLSignalR;
+            _url = url;
         }
         public async Task SendMessageToUnauthenticatedConsumer(Notification notification)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(_uRLSignalR);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpClient httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(_url);
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/Notifications/SendMessageToUnauthenticatedConsumer", notification);
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/Notifications/SendMessageToUnauthenticatedConsumer", notification);
+            response.EnsureSuccessStatusCode();
+        }
+        public async Task SendMessageToAuthenticatedConsumer(string jwtToken,Notification notification)
+        {
+            HttpClient httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(_url);
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/Notifications/SendMessageToAuthenticatedConsumer", notification);
             response.EnsureSuccessStatusCode();
         }
     }

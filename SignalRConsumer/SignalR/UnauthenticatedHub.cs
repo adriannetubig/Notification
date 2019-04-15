@@ -10,9 +10,9 @@ namespace SignalRConsumer.SignalR
         private Action<Notification> _methodOnMessage;
         private HubConnection _unauthenticatedHubConnection;
 
-        private int _hubReconnectionAttempts;
-        private int _hubReconnectionAttemptDelaySeconds;
-        private string _uRLSignalR;
+        private readonly int _hubReconnectionAttempts;
+        private readonly int _hubReconnectionAttemptDelaySeconds;
+        private readonly string _uRLSignalR;
 
         public UnauthenticatedHub(Action<Notification> methodOnMessage, int hubReconnectionAttempts, int hubReconnectionAttemptDelaySeconds, string uRLSignalR)
         {
