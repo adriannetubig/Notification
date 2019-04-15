@@ -1,0 +1,13 @@
+<div>
+  <mat-toolbar color="primary" class="header-toolbar">
+    <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
+  </mat-toolbar>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav [mode]=Push class="sidenav">
+      <app-nav-menu></app-nav-menu>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
