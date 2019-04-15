@@ -35,7 +35,7 @@ namespace AuthenticationFunction
                 RefreshToken = refreshToken
             };
 
-            var tokeOptions = new JwtSecurityToken(
+            var tokenOptions = new JwtSecurityToken(
                 issuer: Configuration.GetSection("Authentication:ValidIssuer").Value,
                 audience: Configuration.GetSection("Authentication:ValidAudience").Value,
                 claims: claims,
@@ -43,7 +43,7 @@ namespace AuthenticationFunction
                 expires: authenticationResult.Expiration,
                 signingCredentials: signinCredentials
             );
-            authenticationResult.Token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+            authenticationResult.Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
             return authenticationResult;
         }
