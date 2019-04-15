@@ -7,9 +7,9 @@ namespace SignalRConsumer.SignalR
 {
     public class AuthenticatedHub: IAuthenticatedHub
     {
-        private Action<Notification> _methodOnMessage;
         private Action _methodOnRefresh;
-        private HubConnection _AuthenticatedHubConnection;
+        private Action<Notification> _methodOnMessage;
+        private HubConnection _hubConnection;
 
         private readonly int _hubReconnectionAttempts;
         private readonly int _hubReconnectionAttemptDelaySeconds;
@@ -30,35 +30,35 @@ namespace SignalRConsumer.SignalR
             _uRLSignalR = uRLSignalR;
         }
 
-        public async void ConnectToAuthenticatedHub()
+        public async void ConnectToHub()
         {
-            if (_AuthenticatedHubConnection == null || _AuthenticatedHubConnection.State == HubConnectionState.Disconnected)
+            if (_hubConnection == null || _hubConnection.State == HubConnectionState.Disconnected)
             {
-                _AuthenticatedHubConnection = new HubConnectionBuilder().WithUrl(_uRLSignalR + "/AuthenticatedHub",
+                _hubConnection = new HubConnectionBuilder().WithUrl(_uRLSignalR + "/AuthenticatedHub",
                     options =>
                     {
                         options.AccessTokenProvider = () => Task.FromResult(_jwtToken);
                     }
                     ).Build();
-                _AuthenticatedHubConnection.Closed += async (error) =>
+                _hubConnection.Closed += async (error) =>
                 {
                     await ReconnectToAuthenticatedHub(0);
                 };
-                _AuthenticatedHubConnection.On<Notification>("AuthorizedMessage", (notification) =>
+                _hubConnection.On<Notification>("AuthorizedMessage", (notification) =>
                 {
                     _methodOnMessage.DynamicInvoke(notification);
                 });
-                await _AuthenticatedHubConnection.StartAsync();
+                await _hubConnection.StartAsync();
             }
         }
 
         private async Task ReconnectToAuthenticatedHub(int attempts)
         {
             _methodOnRefresh.DynamicInvoke();
-            ConnectToAuthenticatedHub();
+            ConnectToHub();
             attempts++;
             await Task.Delay(_hubReconnectionAttemptDelaySeconds);
-            if (_AuthenticatedHubConnection.State == HubConnectionState.Disconnected && (_hubReconnectionAttempts > attempts || _hubReconnectionAttempts == 0))
+            if (_hubConnection.State == HubConnectionState.Disconnected && (_hubReconnectionAttempts > attempts || _hubReconnectionAttempts == 0))
                 await ReconnectToAuthenticatedHub(attempts);
         }
     }

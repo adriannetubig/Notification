@@ -95,7 +95,7 @@ namespace ConsumerDesktop
         {
             Login();
             AuthenticatedHubRefreshToken();
-            _iAuthenticatedHub.ConnectToAuthenticatedHub();
+            _iAuthenticatedHub.ConnectToHub();
         }
 
         private void AuthenticatedHubRefreshToken()
