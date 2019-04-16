@@ -15,15 +15,18 @@ export class UnauthenticatedComponent {
     }, error => console.error(error));
   }
   displayedColumns: string[] = ['dateFormatted', 'temperatureC', 'temperatureF', 'summary'];
+  notificationColumns: string[] = ['eventDate', 'message', 'sender'];
 
-  //_hubConnection = new HubConnection('http://localhost:40902/unauthenticatedHub');
+  ngOnInit() {
+    const connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:40902/unauthenticatedHub").build();
+    connection.start().catch(err => document.write(err));
+    this.Notifications = [];
+    connection.on("UnauthorizedMessage", (notification) => {
+      this.Notifications.push(notification);
+      console.log(this.Notifications);
+    });
 
-  //_hubConnection.start().then(() => console.log('Connection started!')).catch(err => console.log('Error while establishing connection :('));
-
-  //_hubConnection.on("UnauthorizedMessage", (notification) => {
-  //  this.Notifications.push(notification);
-  //  console.log(notification);
-  //});
+  }
 }
 
 interface WeatherForecast {
@@ -38,15 +41,3 @@ interface Notification {
   message: string;
   sender: string;
 }
-
-const connection = new signalR.HubConnectionBuilder()
-  .withUrl("http://localhost:40902/unauthenticatedHub")
-  .build();
-
-connection.start().catch(err => document.write(err));
-
-connection.on("UnauthorizedMessage", (notification) => {
-  this.Notifications.push(notification);
-  console.log(notification);
-});
-
