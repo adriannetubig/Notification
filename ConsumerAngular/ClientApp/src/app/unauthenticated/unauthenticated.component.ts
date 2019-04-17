@@ -1,6 +1,8 @@
 import { Component, NgZone } from '@angular/core';
 import { HubConnectionBuilder } from "@aspnet/signalr";
 import { MatTableDataSource } from '@angular/material';
+import * as config from '../../assets/appsettings.json';
+import { Notification } from '../../shared/models/Notification';
 
 @Component({
   selector: 'app-unauthenticated',
@@ -23,7 +25,7 @@ export class UnauthenticatedComponent {
   }
 
   private ConnectToHub() {
-    const connection = new HubConnectionBuilder().withUrl("http://localhost:40902/unauthenticatedHub").build();
+    const connection = new HubConnectionBuilder().withUrl(config.notification.url + "/unauthenticatedHub").build();
     connection.start().catch(err => document.write(err));
 
     connection.on("UnauthorizedMessage", (notification) => {
@@ -35,8 +37,4 @@ export class UnauthenticatedComponent {
   }
 }
 
-interface Notification {
-  eventDate: Date;
-  message: string;
-  sender: string;
-}
+
