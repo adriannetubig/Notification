@@ -1,39 +1,38 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import * as signalR from "@aspnet/signalr";
+import { Component, NgZone } from '@angular/core';
+import { HubConnectionBuilder } from "@aspnet/signalr";
+import { MatTableDataSource } from '@angular/material';
+
 @Component({
   selector: 'app-unauthenticated',
   templateUrl: './unauthenticated.component.html'
 })
-export class UnauthenticatedComponent {
-  public forecasts: WeatherForecast[];
-  public Notifications: Notification[];
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + 'api/SampleData/WeatherForecasts').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+export class UnauthenticatedComponent {
+  private _notifications: Notification[];
+
+  constructor(private _ngZone: NgZone) {
+
   }
-  displayedColumns: string[] = ['dateFormatted', 'temperatureC', 'temperatureF', 'summary'];
+
   notificationColumns: string[] = ['eventDate', 'message', 'sender'];
+  dataSource = new MatTableDataSource(this._notifications);
 
   ngOnInit() {
-    const connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:40902/unauthenticatedHub").build();
-    connection.start().catch(err => document.write(err));
-    this.Notifications = [];
-    connection.on("UnauthorizedMessage", (notification) => {
-      this.Notifications.push(notification);
-      console.log(this.Notifications);
-    });
-
+    this._notifications = [];
+    this.ConnectToHub();
   }
-}
 
-interface WeatherForecast {
-  dateFormatted: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  private ConnectToHub() {
+    const connection = new HubConnectionBuilder().withUrl("http://localhost:40902/unauthenticatedHub").build();
+    connection.start().catch(err => document.write(err));
+
+    connection.on("UnauthorizedMessage", (notification) => {
+      this._notifications.push(notification);
+      this._ngZone.run(() => {
+        this.dataSource.data = this._notifications;
+      });
+    });
+  }
 }
 
 interface Notification {
