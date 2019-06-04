@@ -2,10 +2,12 @@
 using AuthenticationFunction;
 using AuthenticationModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationWeb.Controllers
 {
+    [EnableCors("CORS")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationsController : ControllerBase

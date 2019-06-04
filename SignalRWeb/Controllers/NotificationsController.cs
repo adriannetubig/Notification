@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SignalRFunction;
@@ -10,6 +11,7 @@ using SignalRWeb.Hubs;
 
 namespace SignalRWeb.Controllers
 {
+    [EnableCors("CORS")]
     [Route("api/[controller]")]
     [ApiController]
     public class NotificationsController : ControllerBase

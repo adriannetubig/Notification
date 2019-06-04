@@ -5,9 +5,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SignalRFunction;
 using SignalRWeb.Hubs;
@@ -26,9 +27,6 @@ namespace SignalRWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .AddNewtonsoftJson();
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -61,6 +59,16 @@ namespace SignalRWeb
                 };
             });
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORS", corsPolicyBuilder => corsPolicyBuilder
+                    .AllowAnyMethod()
+                    .SetIsOriginAllowed(isOriginAllowed: _ => true)
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddScoped<IFNotification, FNotification>();
 
             services.AddSignalR();
@@ -68,29 +76,28 @@ namespace SignalRWeb
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting(routes =>
-            {
-                routes.MapControllers();
-            });
+            //app.UseRouting(routes => routes.MapControllers());
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
-            var allowedOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
-            app.UseCors(builder =>
-            {
-                builder.WithOrigins(allowedOrigins)
-                    .AllowAnyHeader()
-                    .WithMethods("GET", "POST")
-                    .AllowCredentials();
-            });
+            //var allowedOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
+            //app.UseCors(builder =>
+            //{
+            //    builder.WithOrigins(allowedOrigins)
+            //        .AllowAnyHeader()
+            //        .WithMethods("GET", "POST")
+            //        .AllowCredentials();
+            //});
+
+            app.UseCors("CORS");
 
             app.UseSignalR(routes =>
             {
@@ -98,6 +105,7 @@ namespace SignalRWeb
                 routes.MapHub<AuthenticatedHub>("/authenticatedHub");
                 routes.MapHub<UnauthenticatedHub>("/unauthenticatedHub");
             });
+            app.UseMvc();
         }
     }
 }
