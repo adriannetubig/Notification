@@ -1,5 +1,4 @@
 ﻿using AuthenticationModel;
-using System;
 
 namespace AuthenticationFunction
 {

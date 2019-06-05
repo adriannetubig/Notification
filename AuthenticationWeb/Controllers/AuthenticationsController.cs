@@ -22,7 +22,6 @@ namespace AuthenticationWeb.Controllers
             _iFUser = iFUser;
         }
 
-
         [AllowAnonymous, HttpPost("NoAuthorization")]
         public IActionResult NoAuthorization()
         {

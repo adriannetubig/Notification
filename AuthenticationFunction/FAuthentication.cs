@@ -1,5 +1,4 @@
 ﻿using AuthenticationModel;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -11,14 +10,14 @@ namespace AuthenticationFunction
 {
     public class FAuthentication: IFAuthentication
     {
-        private IConfiguration Configuration { get; }
-        public FAuthentication(IConfiguration configuration)
+        private readonly Authorization _authorization;
+        public FAuthentication(Authorization authorization)
         {
-            Configuration = configuration;
+            _authorization = authorization;
         }
         public Authentication Create(string refreshToken, User user)
         {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication:IssuerSigningKey").Value));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authorization.IssuerSigningKey));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
@@ -30,14 +29,14 @@ namespace AuthenticationFunction
 
             var authenticationResult = new Authentication
             {
-                Expiration = DateTime.UtcNow.AddMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ExpiresMinutes").Value)),
+                Expiration = _authorization.Expiration,
                 InvalidBefore = DateTime.UtcNow,
                 RefreshToken = refreshToken
             };
 
             var tokenOptions = new JwtSecurityToken(
-                issuer: Configuration.GetSection("Authentication:ValidIssuer").Value,
-                audience: Configuration.GetSection("Authentication:ValidAudience").Value,
+                issuer: _authorization.ValidIssuer,
+                audience: _authorization.ValidAudience,
                 claims: claims,
                 notBefore: authenticationResult.InvalidBefore,
                 expires: authenticationResult.Expiration,
@@ -55,7 +54,7 @@ namespace AuthenticationFunction
                 ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication:IssuerSigningKey").Value)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authorization.IssuerSigningKey)),
                 ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
             };
 
