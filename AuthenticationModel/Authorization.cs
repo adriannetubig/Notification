@@ -2,7 +2,7 @@
 
 namespace AuthenticationModel
 {
-    public class Authorization
+    public class Authorization//ToDo: This can be a nuget package
     {
         public DateTime Expiration => DateTime.UtcNow.AddMinutes(ExpiresMinutes);
         public double ClockSkewMinutes { get; set; }

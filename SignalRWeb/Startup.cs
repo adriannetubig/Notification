@@ -24,7 +24,6 @@ namespace SignalRWeb
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -37,10 +36,10 @@ namespace SignalRWeb
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
-                    ValidIssuer = Configuration.GetSection("Authentication:ValidIssuer").Value,
-                    ValidAudience = Configuration.GetSection("Authentication:ValidAudience").Value,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication:IssuerSigningKey").Value)),
-                    ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(Configuration.GetSection("Authentication:ClockSkewMinutes").Value))
+                    ValidIssuer = Configuration.GetSection("Authorization:ValidIssuer").Value,
+                    ValidAudience = Configuration.GetSection("Authorization:ValidAudience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authorization:IssuerSigningKey").Value)),
+                    ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(Configuration.GetSection("Authorization:ClockSkewMinutes").Value))
                 };
 
                 options.Events = new JwtBearerEvents
@@ -64,7 +63,7 @@ namespace SignalRWeb
             {
                 options.AddPolicy("CORS", corsPolicyBuilder => corsPolicyBuilder
                     .AllowAnyMethod()
-                    .SetIsOriginAllowed(isOriginAllowed: _ => true)
+                    .WithOrigins(Configuration.GetSection("Authorization:AllowedOrigins").Get<string[]>())
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
@@ -83,19 +82,7 @@ namespace SignalRWeb
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseRouting(routes => routes.MapControllers());
-
             app.UseAuthentication();
-            //app.UseAuthorization();
-
-            //var allowedOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
-            //app.UseCors(builder =>
-            //{
-            //    builder.WithOrigins(allowedOrigins)
-            //        .AllowAnyHeader()
-            //        .WithMethods("GET", "POST")
-            //        .AllowCredentials();
-            //});
 
             app.UseCors("CORS");
 

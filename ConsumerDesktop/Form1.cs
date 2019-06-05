@@ -38,7 +38,7 @@ namespace ConsumerDesktop
             _iAuthenticatedHub = new AuthenticatedHub(AuthenticatedHubRefreshToken, RebindAuthenticatedTable, _hubReconnectionAttempts, _hubReconnectionAttemptDelaySeconds, _uRLSignalR);
             //Attaches method RebindUnauthenticatedTable to SignalR Hub
             _iUnauthenticatedHub = new UnauthenticatedHub(RebindUnauthenticatedTable, _hubReconnectionAttempts, _hubReconnectionAttemptDelaySeconds, _uRLSignalR);
-            StartAuthenticatedHub();
+            Login();
         }
         private async void BtnSend_Click(object sender, EventArgs e)
         {
@@ -70,7 +70,8 @@ namespace ConsumerDesktop
                 UserName = txtUserName.Text,
                 Password = txtPassword.Text
             };
-            _iAuthenticationsApi.Login(user);
+            if (_iAuthenticationsApi.Login(user))
+                StartAuthenticatedHub();
         }
 
         private Notification NotificationModel()
@@ -93,7 +94,6 @@ namespace ConsumerDesktop
         #region AuthenticatedHub
         private void StartAuthenticatedHub()
         {
-            Login();
             AuthenticatedHubRefreshToken();
             _iAuthenticatedHub.ConnectToHub();
         }
