@@ -1,14 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { UnauthenticatedComponent } from './unauthenticated/unauthenticated.component';
 
 //Material Design
@@ -19,6 +17,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 //Material Design
 
 @NgModule({
@@ -26,8 +27,6 @@ import { MatRadioModule } from '@angular/material/radio';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     UnauthenticatedComponent
   ],
   imports: [
@@ -36,11 +35,9 @@ import { MatRadioModule } from '@angular/material/radio';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'unauthenticated', component: UnauthenticatedComponent },
     ]),
-    BrowserAnimationsModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatRadioModule
+    BrowserAnimationsModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatRadioModule, MatCardModule, MatInputModule, MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]

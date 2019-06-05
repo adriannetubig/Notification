@@ -25,3 +25,15 @@
 .full-width-table {
   width: 100%;
 }
+
+.bottom-toolbar {
+  min-height: 100px;
+  position: fixed;
+  top: auto;
+  bottom: 0;
+}
+
+.mat-form-field {
+  padding-left: 15px;
+  padding-right: 15px;
+}

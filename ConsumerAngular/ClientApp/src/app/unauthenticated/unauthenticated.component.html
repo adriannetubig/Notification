@@ -21,3 +21,12 @@
   <tr mat-header-row *matHeaderRowDef="notificationColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: notificationColumns;"></tr>
 </table>
+<mat-toolbar color="primary" class="bottom-toolbar">
+  <mat-form-field>
+    <textarea matInput placeholder="Sender" [(ngModel)]="notification.Sender"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Message" [(ngModel)]="notification.Message"></textarea>
+  </mat-form-field>
+  <button mat-button (click)="Send();">Send</button>
+</mat-toolbar>

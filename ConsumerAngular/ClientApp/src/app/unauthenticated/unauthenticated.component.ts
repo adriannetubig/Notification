@@ -3,6 +3,7 @@ import { HubConnectionBuilder } from "@aspnet/signalr";
 import { MatTableDataSource } from '@angular/material';
 import * as config from '../../assets/appsettings.json';
 import { Notification } from '../../shared/models/Notification';
+import { UnauthenticatedService } from '../unauthenticated/unauthenticated.service';
 
 @Component({
   selector: 'app-unauthenticated',
@@ -13,12 +14,16 @@ export class UnauthenticatedComponent {
   private _notifications: Notification[];
   private reconnectionAttempt: number;
   private reconnectionAttemptDelaySeconds: number;
+  notification: Notification;
   notificationColumns: string[] = ['eventDate', 'message', 'sender'];
   dataSource = new MatTableDataSource(this._notifications);
   connection: any;
 
-  constructor(private _ngZone: NgZone) {
-
+  constructor(private _ngZone: NgZone, private unauthenticatedService: UnauthenticatedService) {
+    this.notification = {
+      Sender: "AngularSender",
+      Message: "AngularMessage"
+    };
   }
 
   ngOnInit() {
@@ -61,6 +66,11 @@ export class UnauthenticatedComponent {
       this.ConnectToHub();
       if ((iteration < this.reconnectionAttempt || this.reconnectionAttempt === 0) && this.connection.state === 0)
         setTimeout(() => { this.Reconnect(iteration); }, this.reconnectionAttemptDelaySeconds * iteration);
+  }
+
+  Send() {
+    console.log(this.notification);
+    this.unauthenticatedService.Send(this.notification).subscribe();
   }
 }
 
