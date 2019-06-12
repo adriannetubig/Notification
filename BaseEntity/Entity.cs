@@ -14,7 +14,7 @@ namespace BaseEntity
                 if (_createdDateUtc.HasValue)
                     return _createdDateUtc.Value;
                 else
-                    return DateTime.Now;
+                    return DateTime.UtcNow;
             }
             set
             {

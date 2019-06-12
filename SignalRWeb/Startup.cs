@@ -74,14 +74,24 @@ namespace SignalRWeb
                     .AllowCredentials());
             });
 
+            services.AddSignalR();
+            services.AddMediatR();
             services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddScoped<DbContext, Context>();
             services.AddScoped<IRNotification, RNotification>();
             services.AddScoped<IFNotification, FNotification>();
 
-            services.AddSignalR();
-            services.AddMediatR();
-            services.AddAutoMapper();
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<ENotification, Notification>());
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.CreateMap<ENotification, Notification>();
+                mc.CreateMap<Notification, ENotification>();
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
