@@ -21,8 +21,9 @@ export class UnauthenticatedComponent {
 
   constructor(private _ngZone: NgZone, private unauthenticatedService: UnauthenticatedService) {
     this.notification = {
-      Sender: "AngularSender",
-      Message: "AngularMessage"
+      sender: "AngularSender",
+      message: "AngularMessage",
+      eventDate: new Date()
     };
   }
 
