@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.5" />
@@ -12,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SignalRData\SignalRData.csproj" />
+    <ProjectReference Include="..\SignalREntity\SignalREntity.csproj" />
     <ProjectReference Include="..\SignalRFunction\SignalRFunction.csproj" />
     <ProjectReference Include="..\SignalRModel\SignalRModel.csproj" />
   </ItemGroup>

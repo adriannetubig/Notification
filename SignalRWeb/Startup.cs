@@ -1,16 +1,22 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using SignalRData;
+using SignalRData.Services;
+using SignalREntity;
 using SignalRFunction;
+using SignalRModel;
 using SignalRWeb.Hubs;
 
 namespace SignalRWeb
@@ -68,10 +74,14 @@ namespace SignalRWeb
                     .AllowCredentials());
             });
 
+            services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddScoped<DbContext, Context>();
+            services.AddScoped<IRNotification, RNotification>();
             services.AddScoped<IFNotification, FNotification>();
 
             services.AddSignalR();
             services.AddMediatR();
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
