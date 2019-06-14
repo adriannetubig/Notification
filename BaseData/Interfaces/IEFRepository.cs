@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,12 +14,12 @@ namespace BaseData.Services
         #endregion
 
         #region Read
-        Task<TEntity> Read(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
-        IQueryable<TEntity> ReadAll();
+        Task<TEntity> ReadSingle(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
+        Task<List<TEntity>> ReadMultiple(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
         #endregion
 
         #region Update
-        Task Update(TEntity entity, CancellationToken cancellationToken);
+        //Task Update(TEntity entity, CancellationToken cancellationToken);
         #endregion
 
         #region Delete

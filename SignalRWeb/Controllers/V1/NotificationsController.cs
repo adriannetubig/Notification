@@ -9,12 +9,12 @@ using SignalRFunction;
 using SignalRModel;
 using SignalRWeb.Hubs;
 
-namespace SignalRWeb.Controllers
+namespace SignalRWeb.Controllers.V1
 {
-    [EnableCors("CORS")]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class NotificationsController : ControllerBase
+    //[EnableCors("CORS")]
+    //[Route("api/[controller]")]
+    //[ApiController]
+    public class NotificationsController : BaseControllerV1
     {
         private readonly IFNotification _iFNotification;
         private readonly IHubContext<NotificationHub> _hubContext;
@@ -59,6 +59,13 @@ namespace SignalRWeb.Controllers
                 notification.Sender = "Unauthenticated";
             await _iFNotification.SendMessageToUnauthenticatedConsumer(notification, cancellationToken);
             return Ok(User.Identities.FirstOrDefault().Name);
+        }
+
+
+        [AllowAnonymous, HttpGet]
+        public async Task<IActionResult> Read(CancellationToken cancellationToken)
+        {
+            return Ok(await _iFNotification.Read(cancellationToken));//Todo: Add Filter
         }
     }
 }

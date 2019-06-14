@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -25,24 +26,27 @@ namespace BaseData.Services
         #endregion
 
         #region Read
-        public async Task<TEntity> Read(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
+        public async Task<TEntity> ReadSingle(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
         {
             return await _dbContext.Set<TEntity>()
                         .AsNoTracking()
                         .FirstOrDefaultAsync(expression, cancellationToken);
         }
-        public IQueryable<TEntity> ReadAll()
+        public async Task<List<TEntity>> ReadMultiple (Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
         {
-            return _dbContext.Set<TEntity>().AsNoTracking();
+            return await _dbContext.Set<TEntity>()
+                .AsNoTracking()
+                .Where(expression)
+                .ToListAsync(cancellationToken);
         }
         #endregion
 
         #region Update
-        public async Task Update(TEntity entity, CancellationToken cancellationToken)
-        {
-            _dbContext.Set<TEntity>().Update(entity);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
+        //public async Task Update(TEntity entity, CancellationToken cancellationToken)
+        //{
+        //    _dbContext.Set<TEntity>().Update(entity);
+        //    await _dbContext.SaveChangesAsync(cancellationToken);
+        //}
         #endregion
 
         #region Delete

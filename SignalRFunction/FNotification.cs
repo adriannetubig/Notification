@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using BaseModel;
 using MediatR;
 using SignalRData.Services;
 using SignalREntity;
 using SignalRModel;
 using SignalRModel.Events;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,6 +23,8 @@ namespace SignalRFunction
             _mediator = mediator;
             _iRNotification = iRNotification;
         }
+
+        #region Create
         public async Task SendMessageToAuthenticatedConsumer(Notification notification, CancellationToken cancellationToken)
         {
             var authenticatedHubEvent = new AuthenticatedHubEvent
@@ -43,5 +48,22 @@ namespace SignalRFunction
             await _iRNotification.Create(eNotification, cancellationToken);
             await _mediator.Publish(unauthenticatedHubEvent, cancellationToken);
         }
+        #endregion
+
+        #region Read
+        public async Task<RequestResult<List<Notification>>> Read(CancellationToken cancellationToken)
+        {
+            var requestResult = new RequestResult<List<Notification>>();
+            try
+            {
+                var eNotifications = await _iRNotification.ReadMultiple(a => true, cancellationToken);//ToDo: add filter
+            }
+            catch (Exception e)
+            {
+                requestResult.Exceptions.Add(e);
+            }
+            return requestResult;
+        }
+        #endregion
     }
 }
