@@ -13,7 +13,7 @@ export class UnauthenticatedService {
   }
 
   Send(notification: Notification) {
-    return this.http.post(config.notification.url + '/api/Notifications/SendMessageToUnauthenticatedConsumer', notification);
+    return this.http.post(config.notification.url + '/api/v1/Notifications/SendMessageToUnauthenticatedConsumer', notification);
   }
 }
 

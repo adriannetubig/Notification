@@ -173,6 +173,10 @@
       <Project>{581f2719-e5f4-4d8f-815f-3c184d78298b}</Project>
       <Name>AuthenticationModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BaseConsumer\BaseConsumer.csproj">
+      <Project>{D050BD5C-B112-44C0-BE2F-B9E93EE93D04}</Project>
+      <Name>BaseConsumer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SignalRConsumer\SignalRConsumer.csproj">
       <Project>{c677740c-2643-4902-8ef5-58854cec8671}</Project>
       <Name>SignalRConsumer</Name>

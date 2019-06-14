@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRData", "SignalRData\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseData", "BaseData\BaseData.csproj", "{AECCD85F-B1E7-4732-B8FF-266710CBA77A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseModel", "BaseModel\BaseModel.csproj", "{D61C5530-B180-47F8-AEFB-1C14C226CDDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseModel", "BaseModel\BaseModel.csproj", "{D61C5530-B180-47F8-AEFB-1C14C226CDDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseConsumer", "BaseConsumer\BaseConsumer.csproj", "{D050BD5C-B112-44C0-BE2F-B9E93EE93D04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,12 +113,16 @@ Global
 		{D61C5530-B180-47F8-AEFB-1C14C226CDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D61C5530-B180-47F8-AEFB-1C14C226CDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D61C5530-B180-47F8-AEFB-1C14C226CDDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D050BD5C-B112-44C0-BE2F-B9E93EE93D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D050BD5C-B112-44C0-BE2F-B9E93EE93D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D050BD5C-B112-44C0-BE2F-B9E93EE93D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D050BD5C-B112-44C0-BE2F-B9E93EE93D04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {23E0AAB3-DF67-4A5A-A260-3F61DE02F036}
 		LessCompiler = fb286f94-6ed8-4972-888b-f9b1502ec7d1
+		SolutionGuid = {23E0AAB3-DF67-4A5A-A260-3F61DE02F036}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
 ﻿using AuthenticationConsumer.Api;
 using AuthenticationModel;
-using SignalRConsumer.Api;
+using SignalRConsumer.Api.V1;
 using SignalRConsumer.SignalR;
 using SignalRModel;
 using System;

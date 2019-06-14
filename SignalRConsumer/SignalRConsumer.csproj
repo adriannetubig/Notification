@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BaseConsumer\BaseConsumer.csproj" />
     <ProjectReference Include="..\SignalRModel\SignalRModel.csproj" />
   </ItemGroup>
 

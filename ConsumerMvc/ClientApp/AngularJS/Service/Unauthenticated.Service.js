@@ -11,7 +11,7 @@
         };
 
         function Send(notification) {
-            return $http.post(URLSignalR + '/api/Notifications/SendMessageToUnauthenticatedConsumer',
+            return $http.post(URLSignalR + '/api/v1/Notifications/SendMessageToUnauthenticatedConsumer',
                 notification);
         }
     }
