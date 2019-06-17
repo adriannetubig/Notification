@@ -2,46 +2,18 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using SignalRFunction;
 using SignalRModel;
-using SignalRWeb.Hubs;
 
 namespace SignalRWeb.Controllers.V1
 {
-    //[EnableCors("CORS")]
-    //[Route("api/[controller]")]
-    //[ApiController]
     public class NotificationsController : BaseControllerV1
     {
         private readonly IFNotification _iFNotification;
-        private readonly IHubContext<NotificationHub> _hubContext;
-
-        public NotificationsController(IFNotification iFNotification, IHubContext<NotificationHub> hubContext)
+        public NotificationsController(IFNotification iFNotification)
         {
             _iFNotification = iFNotification;
-            _hubContext = hubContext;
-        }
-
-
-        [AllowAnonymous, HttpPost("NoAuthorization")]
-        public IActionResult NoAuthorization()
-        {
-            Task.WaitAll(
-            _hubContext.Clients.All.SendAsync("ReceiveMessage", "Api", "NoAuthorization")
-            );
-            return Ok("NoAuthorization");
-        }
-
-        [Authorize, HttpPost("WithAuthorization")]
-        public IActionResult WithAuthorization()
-        {
-            Task.WaitAll(
-            _hubContext.Clients.All.SendAsync("ReceiveMessage", "Api", User.Identities.FirstOrDefault().Name)
-            );
-            return Ok(User.Identities.FirstOrDefault().Name);
         }
 
         [Authorize, HttpPost("SendMessageToAuthenticatedConsumer")]

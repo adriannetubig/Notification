@@ -9,61 +9,158 @@
 			"name": "Authentication",
 			"item": [
 				{
-					"name": "WithAuthorization",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer  {{Authorization}}",
-								"type": "text"
+					"name": "Version1",
+					"item": [
+						{
+							"name": "WithAuthorization",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer  {{Authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{UrlAuthentication}}/api/Authentications/WithAuthorization",
+									"host": [
+										"{{UrlAuthentication}}"
+									],
+									"path": [
+										"api",
+										"Authentications",
+										"WithAuthorization"
+									]
+								}
 							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
+							"response": []
 						},
-						"url": {
-							"raw": "{{UrlAuthentication}}/api/Authentications/WithAuthorization",
-							"host": [
-								"{{UrlAuthentication}}"
-							],
-							"path": [
-								"api",
-								"Authentications",
-								"WithAuthorization"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "NoAuthorization",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
+						{
+							"name": "NoAuthorization",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{UrlAuthentication}}/api/v1/Authentications/NoAuthorization",
+									"host": [
+										"{{UrlAuthentication}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Authentications",
+										"NoAuthorization"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "{{UrlAuthentication}}/api/Authentications/NoAuthorization",
-							"host": [
-								"{{UrlAuthentication}}"
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a599c5e7-6684-4d95-b6c0-50a11aa8ea3a",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"Authorization\", jsonData.token)",
+											"postman.setEnvironmentVariable(\"RefreshToken\", jsonData.refreshToken)"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"path": [
-								"api",
-								"Authentications",
-								"NoAuthorization"
-							]
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"UserName\":\"{{UserName}}\",\r\n   \"Password\": \"{{Password}}\"\r\n} "
+								},
+								"url": {
+									"raw": "{{UrlAuthentication}}/api/v1/Authentications/Login",
+									"host": [
+										"{{UrlAuthentication}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Authentications",
+										"Login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a599c5e7-6684-4d95-b6c0-50a11aa8ea3a",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"Authorization\", jsonData.token)",
+											"postman.setEnvironmentVariable(\"RefreshToken\", jsonData.refreshToken)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"Token\":\"{{Authorization}}\",\r\n   \"RefreshToken\": \"{{RefreshToken}}\"\r\n} "
+								},
+								"url": {
+									"raw": "{{UrlAuthentication}}/api/v1/Authentications/Refresh",
+									"host": [
+										"{{UrlAuthentication}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Authentications",
+										"Refresh"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"_postman_isSubFolder": true
 				}
 			]
 		},
@@ -269,94 +366,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "Login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a599c5e7-6684-4d95-b6c0-50a11aa8ea3a",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"Authorization\", jsonData.token)",
-							"postman.setEnvironmentVariable(\"RefreshToken\", jsonData.refreshToken)"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n   \"UserName\":\"{{UserName}}\",\r\n   \"Password\": \"{{Password}}\"\r\n} "
-				},
-				"url": {
-					"raw": "{{UrlAuthentication}}/api/Authentications/Login",
-					"host": [
-						"{{UrlAuthentication}}"
-					],
-					"path": [
-						"api",
-						"Authentications",
-						"Login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Refresh",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a599c5e7-6684-4d95-b6c0-50a11aa8ea3a",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"Authorization\", jsonData.token)",
-							"postman.setEnvironmentVariable(\"RefreshToken\", jsonData.refreshToken)"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n   \"Token\":\"{{Authorization}}\",\r\n   \"RefreshToken\": \"{{RefreshToken}}\"\r\n} "
-				},
-				"url": {
-					"raw": "{{UrlAuthentication}}/api/Authentications/Refresh",
-					"host": [
-						"{{UrlAuthentication}}"
-					],
-					"path": [
-						"api",
-						"Authentications",
-						"Refresh"
-					]
-				}
-			},
-			"response": []
 		}
 	]
 }

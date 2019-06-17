@@ -114,7 +114,6 @@ namespace SignalRWeb
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<NotificationHub>("/notificationHub");
                 routes.MapHub<AuthenticatedHub>("/authenticatedHub");
                 routes.MapHub<UnauthenticatedHub>("/unauthenticatedHub");
             });

@@ -116,7 +116,6 @@
     <Content Include="ClientApp\package.json" />
     <Content Include="Content\Site.less" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\notification.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
