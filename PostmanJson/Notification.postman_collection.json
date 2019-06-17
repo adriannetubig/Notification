@@ -18,13 +18,13 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer  {{Authorization}}",
-										"type": "text"
+										"type": "text",
+										"value": "Bearer  {{Authorization}}"
 									},
 									{
 										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
+										"type": "text",
+										"value": "application/json"
 									}
 								],
 								"body": {
@@ -32,12 +32,13 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "{{UrlAuthentication}}/api/Authentications/WithAuthorization",
+									"raw": "{{UrlAuthentication}}/api/v1/Authentications/WithAuthorization",
 									"host": [
 										"{{UrlAuthentication}}"
 									],
 									"path": [
 										"api",
+										"v1",
 										"Authentications",
 										"WithAuthorization"
 									]
@@ -276,6 +277,194 @@
 										"v1",
 										"Notifications",
 										"SendMessageToUnauthenticatedConsumer"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Version2",
+					"item": [
+						{
+							"name": "SendMessageToAuthenticatedConsumer",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer  {{Authorization}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"message\":\"messager\"\r\n} "
+								},
+								"url": {
+									"raw": "{{UrlSignalR}}/api/v2/Notifications/SendMessageToAuthenticatedConsumer",
+									"host": [
+										"{{UrlSignalR}}"
+									],
+									"path": [
+										"api",
+										"v2",
+										"Notifications",
+										"SendMessageToAuthenticatedConsumer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer  {{Authorization}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{UrlSignalR}}/api/v2/Notifications",
+									"host": [
+										"{{UrlSignalR}}"
+									],
+									"path": [
+										"api",
+										"v2",
+										"Notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SendMessageToUnauthenticatedConsumer",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer  {{Authorization}}",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"message\":\"messager\"\r\n} "
+								},
+								"url": {
+									"raw": "{{UrlSignalR}}/api/v2/Notifications/SendMessageToUnauthenticatedConsumer",
+									"host": [
+										"{{UrlSignalR}}"
+									],
+									"path": [
+										"api",
+										"v2",
+										"Notifications",
+										"SendMessageToUnauthenticatedConsumer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer  {{Authorization}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"notificationId\": \"3\",\r\n   \"message\":\"UpdatedMessage2\"\r\n} "
+								},
+								"url": {
+									"raw": "{{UrlSignalR}}/api/v2/Notifications",
+									"host": [
+										"{{UrlSignalR}}"
+									],
+									"path": [
+										"api",
+										"v2",
+										"Notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer  {{Authorization}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"notificationId\": \"3\",\r\n   \"message\":\"UpdatedMessage2\"\r\n} "
+								},
+								"url": {
+									"raw": "{{UrlSignalR}}/api/v2/Notifications/1",
+									"host": [
+										"{{UrlSignalR}}"
+									],
+									"path": [
+										"api",
+										"v2",
+										"Notifications",
+										"1"
 									]
 								}
 							},

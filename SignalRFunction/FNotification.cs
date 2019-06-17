@@ -27,6 +27,12 @@ namespace SignalRFunction
         #region Create
         public async Task SendMessageToAuthenticatedConsumer(Notification notification, CancellationToken cancellationToken)
         {
+            await SendMessageToAuthenticatedConsumer(notification, cancellationToken, 0);
+
+        }
+
+        public async Task SendMessageToAuthenticatedConsumer(Notification notification, CancellationToken cancellationToken, int createdBy)
+        {
             var authenticatedHubEvent = new AuthenticatedHubEvent
             {
                 Sender = notification.Sender,
@@ -34,17 +40,28 @@ namespace SignalRFunction
             };
 
             var eNotification = _iMapper.Map<ENotification>(notification);
+            eNotification.CreatedBy = createdBy;
+
             await _iRNotification.Create(eNotification, cancellationToken);
             await _mediator.Publish(authenticatedHubEvent, cancellationToken);
         }
+
         public async Task SendMessageToUnauthenticatedConsumer(Notification notification, CancellationToken cancellationToken)
+        {
+            await SendMessageToUnauthenticatedConsumer(notification, cancellationToken, 0);
+        }
+
+        public async Task SendMessageToUnauthenticatedConsumer(Notification notification, CancellationToken cancellationToken, int createdBy)
         {
             var unauthenticatedHubEvent = new UnauthenticatedHubEvent
             {
                 Sender = notification.Sender,
                 Message = notification.Message
             };
+
             var eNotification = _iMapper.Map<ENotification>(notification);
+            eNotification.CreatedBy = createdBy;
+
             await _iRNotification.Create(eNotification, cancellationToken);
             await _mediator.Publish(unauthenticatedHubEvent, cancellationToken);
         }
@@ -57,6 +74,46 @@ namespace SignalRFunction
             try
             {
                 var eNotifications = await _iRNotification.ReadMultiple(a => true, cancellationToken);//ToDo: add filter
+                requestResult.Model = _iMapper.Map<List<Notification>>(eNotifications);
+            }
+            catch (Exception e)
+            {
+                requestResult.Exceptions.Add(e);
+            }
+            return requestResult;
+        }
+        #endregion
+
+        #region Update
+        public async Task<RequestResult> Update(Notification notification, CancellationToken cancellationToken, int updatedBy)
+        {
+            var requestResult = new RequestResult();
+            try
+            {
+                //Prevent updating other fields
+                var eNotification = await _iRNotification.ReadSingle(a => a.NotificationId == notification.NotificationId, cancellationToken);
+
+                eNotification.UpdatedBy = updatedBy;
+                eNotification.Message = notification.Message;
+                eNotification.UpdatedDateUtc = DateTime.UtcNow;
+
+                await _iRNotification.Update(eNotification, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                requestResult.Exceptions.Add(e);
+            }
+            return requestResult;
+        }
+        #endregion
+
+        #region Delete
+        public async Task<RequestResult> Delete(int notificationId, CancellationToken cancellationToken)
+        {
+            var requestResult = new RequestResult();
+            try
+            {
+                await _iRNotification.Delete(a => a.NotificationId == notificationId, cancellationToken);
             }
             catch (Exception e)
             {

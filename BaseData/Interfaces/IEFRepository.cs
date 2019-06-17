@@ -19,10 +19,12 @@ namespace BaseData.Services
         #endregion
 
         #region Update
-        //Task Update(TEntity entity, CancellationToken cancellationToken);
+        Task Update(TEntity entity, CancellationToken cancellationToken);
         #endregion
 
         #region Delete
+        Task Delete(TEntity entity, CancellationToken cancellationToken);
+        Task Delete(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
         #endregion
     }
 }

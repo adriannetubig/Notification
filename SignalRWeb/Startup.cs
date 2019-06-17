@@ -97,7 +97,12 @@ namespace SignalRWeb
                 o.ReportApiVersions = true;
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
+
+                o.Conventions.Controller<Controllers.V1.NotificationsController>().HasApiVersion(new ApiVersion(1, 0));
+                o.Conventions.Controller<Controllers.V2.NotificationsController>().HasApiVersion(new ApiVersion(2, 0));
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

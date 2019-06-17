@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using SignalRFunction;
 using SignalRModel;
 
-namespace SignalRWeb.Controllers.V1
+namespace SignalRWeb.Controllers.V2
 {
-    public class NotificationsController : BaseControllerV1
+    public class NotificationsController : BaseControllerV2
     {
         private readonly IFNotification _iFNotification;
         public NotificationsController(IFNotification iFNotification)
@@ -16,26 +16,37 @@ namespace SignalRWeb.Controllers.V1
             _iFNotification = iFNotification;
         }
 
-        [HttpPost("SendMessageToAuthenticatedConsumer")]
+        [HttpPut("SendMessageToAuthenticatedConsumer")]
         public async Task<IActionResult> WithAuthorization(Notification notification, CancellationToken cancellationToken)
         {
             notification.Sender = UserName;
-            await _iFNotification.SendMessageToAuthenticatedConsumer(notification, cancellationToken);
+            await _iFNotification.SendMessageToAuthenticatedConsumer(notification, cancellationToken, UserId);
             return Ok(User.Identities.FirstOrDefault().Name);
         }
 
-        [AllowAnonymous ,HttpPost("SendMessageToUnauthenticatedConsumer")]
+        [AllowAnonymous, HttpPut("SendMessageToUnauthenticatedConsumer")]
         public async Task<IActionResult> WithoutAuthorization(Notification notification, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(notification.Sender))
                 notification.Sender = "Unauthenticated";
 
-            await _iFNotification.SendMessageToUnauthenticatedConsumer(notification, cancellationToken);
-            return Ok(UserName);
+            await _iFNotification.SendMessageToUnauthenticatedConsumer(notification, cancellationToken, UserId);
+            return Ok(User.Identities.FirstOrDefault().Name);
         }
 
+        [HttpDelete("{notificationId}")]
+        public async Task<IActionResult> Delete(int notificationId, CancellationToken cancellationToken)
+        {
+            return Ok(await _iFNotification.Delete(notificationId, cancellationToken));
+        }
 
-        [AllowAnonymous, HttpGet]
+        [HttpPost("")]
+        public async Task<IActionResult> Update(Notification notification, CancellationToken cancellationToken)
+        {
+            return Ok(await _iFNotification.Update(notification, cancellationToken, UserId));
+        }
+
+        [HttpGet("")]
         public async Task<IActionResult> Read(CancellationToken cancellationToken)
         {
             return Ok(await _iFNotification.Read(cancellationToken));//Todo: Add Filter

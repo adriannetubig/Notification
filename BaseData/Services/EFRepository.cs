@@ -42,14 +42,24 @@ namespace BaseData.Services
         #endregion
 
         #region Update
-        //public async Task Update(TEntity entity, CancellationToken cancellationToken)
-        //{
-        //    _dbContext.Set<TEntity>().Update(entity);
-        //    await _dbContext.SaveChangesAsync(cancellationToken);
-        //}
+        public async Task Update(TEntity entity, CancellationToken cancellationToken)
+        {
+            _dbContext.Set<TEntity>().Update(entity);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
         #endregion
 
         #region Delete
+        public async Task Delete(TEntity entity, CancellationToken cancellationToken)
+        {
+            _dbContext.Set<TEntity>().Remove(entity);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+        public async Task Delete(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
+        {
+            var entity = await ReadSingle(expression, cancellationToken);
+            await Delete(entity, cancellationToken);
+        }
         #endregion
     }
 }
