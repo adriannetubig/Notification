@@ -171,41 +171,6 @@
 					"name": "Version1",
 					"item": [
 						{
-							"name": "WithAuthorization",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer  {{Authorization}}"
-									},
-									{
-										"key": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{UrlSignalR}}/api/v1/Notifications/WithAuthorization",
-									"host": [
-										"{{UrlSignalR}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"Notifications",
-										"WithAuthorization"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "SendMessageToAuthenticatedConsumer",
 							"request": {
 								"method": "POST",
@@ -274,30 +239,6 @@
 										"api",
 										"v1",
 										"Notifications"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "NoAuthorization",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{UrlSignalR}}/api/v1/Notifications/NoAuthorization",
-									"host": [
-										"{{UrlSignalR}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"Notifications",
-										"NoAuthorization"
 									]
 								}
 							},
