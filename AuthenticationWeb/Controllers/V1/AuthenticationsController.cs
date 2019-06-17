@@ -2,15 +2,11 @@
 using AuthenticationFunction;
 using AuthenticationModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthenticationWeb.Controllers
+namespace AuthenticationWeb.Controllers.V1
 {
-    [EnableCors("CORS")]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthenticationsController : ControllerBase
+    public class AuthenticationsController : BaseControllerV1
     {
         private readonly IFAuthentication _iFAuthentication;
         private readonly IFRefreshToken _iFRefreshToken;

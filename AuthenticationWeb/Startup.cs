@@ -56,6 +56,12 @@ namespace AuthenticationWeb
             services.AddScoped<IFAuthentication>(a => new FAuthentication(authorization));
             services.AddScoped<IFRefreshToken, FRefreshToken>();
             services.AddScoped<IFUser, FUser>();
+
+            services.AddApiVersioning(o => {
+                o.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

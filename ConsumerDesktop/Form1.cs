@@ -1,4 +1,4 @@
-﻿using AuthenticationConsumer.Api;
+﻿using AuthenticationConsumer.Api.V1;
 using AuthenticationModel;
 using SignalRConsumer.Api.V1;
 using SignalRConsumer.SignalR;

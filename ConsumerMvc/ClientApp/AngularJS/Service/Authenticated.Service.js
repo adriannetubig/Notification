@@ -12,7 +12,7 @@
 
         async function Send(notification) {
             var config = await AuthenticationsFactory.GetAuthenticatedConfig();
-            return $http.post(URLSignalR + '/api/Notifications/SendMessageToAuthenticatedConsumer',
+            return $http.post(URLSignalR + '/api/v1/Notifications/SendMessageToAuthenticatedConsumer',
                 notification, config);
         }
     }
