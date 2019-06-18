@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using BaseModel;
+using LinqKit;
 using MediatR;
 using SignalRData.Services;
 using SignalREntity;
 using SignalRModel;
 using SignalRModel.Events;
+using SignalRModel.Filter;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -73,7 +76,33 @@ namespace SignalRFunction
             var requestResult = new RequestResult<List<Notification>>();
             try
             {
-                var eNotifications = await _iRNotification.ReadMultiple(a => true, cancellationToken);//ToDo: add filter
+                var eNotifications = await _iRNotification.ReadMultiple(a => true, cancellationToken);
+                requestResult.Model = _iMapper.Map<List<Notification>>(eNotifications);
+            }
+            catch (Exception e)
+            {
+                requestResult.Exceptions.Add(e);
+            }
+            return requestResult;
+        }
+
+        public async Task<RequestResult<List<Notification>>> Read(NotificationFilter notificationFilter, CancellationToken cancellationToken)
+        {
+            var requestResult = new RequestResult<List<Notification>>();
+            try
+            {
+                var filterModel = notificationFilter.FilterModel;
+
+                Expression<Func<ENotification, bool>> predicate = PredicateBuilder.New<ENotification>();
+                predicate = a => true;
+
+                if (!string.IsNullOrEmpty(filterModel.Sender))
+                    predicate = predicate.And(a => a.Sender.Contains(filterModel.Sender));
+
+                if (!string.IsNullOrEmpty(filterModel.Message))
+                    predicate = predicate.And(a => a.Message.Contains(filterModel.Message));
+
+                var eNotifications = await _iRNotification.ReadMultiple(predicate, cancellationToken);
                 requestResult.Model = _iMapper.Map<List<Notification>>(eNotifications);
             }
             catch (Exception e)

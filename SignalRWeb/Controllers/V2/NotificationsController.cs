@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignalRFunction;
 using SignalRModel;
+using SignalRModel.Filter;
 
 namespace SignalRWeb.Controllers.V2
 {
@@ -47,9 +48,9 @@ namespace SignalRWeb.Controllers.V2
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Read(CancellationToken cancellationToken)
+        public async Task<IActionResult> Read(NotificationFilter notificationFilter, CancellationToken cancellationToken)
         {
-            return Ok(await _iFNotification.Read(cancellationToken));//Todo: Add Filter
+            return Ok(await _iFNotification.Read(notificationFilter ,cancellationToken));//Todo: Add Filter
         }
     }
 }

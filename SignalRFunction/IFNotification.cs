@@ -1,5 +1,6 @@
 ﻿using BaseModel;
 using SignalRModel;
+using SignalRModel.Filter;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace SignalRFunction
 
         #region Read
         Task<RequestResult<List<Notification>>> Read(CancellationToken cancellationToken);
+        Task<RequestResult<List<Notification>>> Read(NotificationFilter notificationFilter, CancellationToken cancellationToken);
         #endregion
 
         #region Update
