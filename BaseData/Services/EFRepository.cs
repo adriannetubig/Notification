@@ -17,15 +17,12 @@ namespace BaseData.Services
             _dbContext = dbContext;
         }
 
-        #region Create
         public async Task Create(TEntity entity, CancellationToken cancellationToken)
         {
             await _dbContext.Set<TEntity>().AddAsync(entity, cancellationToken);
             await _dbContext.SaveChangesAsync();
         }
-        #endregion
 
-        #region Read
         public async Task<TEntity> ReadSingle(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
         {
             return await _dbContext.Set<TEntity>()
@@ -39,17 +36,13 @@ namespace BaseData.Services
                 .Where(expression)
                 .ToListAsync(cancellationToken);
         }
-        #endregion
 
-        #region Update
         public async Task Update(TEntity entity, CancellationToken cancellationToken)
         {
             _dbContext.Set<TEntity>().Update(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
-        #endregion
 
-        #region Delete
         public async Task Delete(TEntity entity, CancellationToken cancellationToken)
         {
             _dbContext.Set<TEntity>().Remove(entity);
@@ -60,6 +53,5 @@ namespace BaseData.Services
             var entity = await ReadSingle(expression, cancellationToken);
             await Delete(entity, cancellationToken);
         }
-        #endregion
     }
 }

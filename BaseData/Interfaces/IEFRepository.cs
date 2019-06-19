@@ -8,23 +8,14 @@ namespace BaseData.Services
 {
     public interface IEFRepository<TEntity> where TEntity : class
     {
-
-        #region Create
         Task Create(TEntity entity, CancellationToken cancellationToken);
-        #endregion
 
-        #region Read
         Task<TEntity> ReadSingle(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
         Task<List<TEntity>> ReadMultiple(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
-        #endregion
 
-        #region Update
         Task Update(TEntity entity, CancellationToken cancellationToken);
-        #endregion
 
-        #region Delete
         Task Delete(TEntity entity, CancellationToken cancellationToken);
         Task Delete(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
-        #endregion
     }
 }

@@ -27,7 +27,6 @@ namespace SignalRFunction
             _iRNotification = iRNotification;
         }
 
-        #region Create
         public async Task SendMessageToAuthenticatedConsumer(Notification notification, CancellationToken cancellationToken)
         {
             await SendMessageToAuthenticatedConsumer(notification, cancellationToken, 0);
@@ -68,9 +67,7 @@ namespace SignalRFunction
             await _iRNotification.Create(eNotification, cancellationToken);
             await _mediator.Publish(unauthenticatedHubEvent, cancellationToken);
         }
-        #endregion
 
-        #region Read
         public async Task<RequestResult<List<Notification>>> Read(CancellationToken cancellationToken)
         {
             var requestResult = new RequestResult<List<Notification>>();
@@ -111,9 +108,7 @@ namespace SignalRFunction
             }
             return requestResult;
         }
-        #endregion
 
-        #region Update
         public async Task<RequestResult> Update(Notification notification, CancellationToken cancellationToken, int updatedBy)
         {
             var requestResult = new RequestResult();
@@ -134,9 +129,7 @@ namespace SignalRFunction
             }
             return requestResult;
         }
-        #endregion
 
-        #region Delete
         public async Task<RequestResult> Delete(int notificationId, CancellationToken cancellationToken)
         {
             var requestResult = new RequestResult();
@@ -150,6 +143,5 @@ namespace SignalRFunction
             }
             return requestResult;
         }
-        #endregion
     }
 }

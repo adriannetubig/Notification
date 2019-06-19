@@ -91,7 +91,6 @@ namespace ConsumerDesktop
                 await _iNotificationsApi.SendMessageToAuthenticatedConsumer(_iAuthenticationsApi.Token(), NotificationModel());
         }
 
-        #region AuthenticatedHub
         private void StartAuthenticatedHub()
         {
             AuthenticatedHubRefreshToken();
@@ -113,9 +112,7 @@ namespace ConsumerDesktop
                 dgvAuthenticated.DataSource = source;
             });
         }
-        #endregion
 
-        #region UnauthenticatedHub
         private void RebindUnauthenticatedTable(Notification notification)
         {
             _unauthenticatedNotifications.Add(notification);
@@ -126,7 +123,6 @@ namespace ConsumerDesktop
                 dgvUnauthenticated.DataSource = source;
             });
         }
-        #endregion
 
     }
 }
