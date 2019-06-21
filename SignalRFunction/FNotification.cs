@@ -65,6 +65,9 @@ namespace SignalRFunction
             eNotification.CreatedBy = createdBy;
 
             await _iRNotification.Create(eNotification, cancellationToken);
+            //demo for how regular EF calls work
+            eNotification.NotificationId = 0;
+            await _iRNotification.RedundantAdd(eNotification);
             await _mediator.Publish(unauthenticatedHubEvent, cancellationToken);
         }
 
