@@ -14,9 +14,9 @@ namespace SignalRWeb.Dispatcher
         {
             _hubContext = hubContext;
         }
-        public Task Handle(AuthenticatedHubEvent @event, CancellationToken cancellationToken)
+        public Task Handle(AuthenticatedHubEvent authenticatedHubEvent, CancellationToken cancellationToken)
         {
-            return _hubContext.Clients.All.SendAsync("AuthorizedMessage", @event, cancellationToken);
+            return _hubContext.Clients.All.SendAsync("AuthorizedMessage", authenticatedHubEvent, cancellationToken);
         }
     }
 }
