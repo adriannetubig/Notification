@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@aspnet/signalr": "^1.1.2",
-    "angular": "^1.7.8",
+    "angular": "^1.7.9",
     "angular-cookies": "^1.7.8",
     "jquery": "^3.3.1"
   }
